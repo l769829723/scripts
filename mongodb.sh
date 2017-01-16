@@ -14,7 +14,7 @@ function logging(){
 function download(){
 	logging "Downloading the file from $url ."
 	rm -f $data_dir/$file_name
-	wget -P $data_dir $url --no-check-certificate >>${log_path}
+	wget --no-check-certificate -P $data_dir $url >>${log_path}
 	if [[ ! -f $data_dir/$file_name ]];then
 		logging "Download was failed from $url ."
 		exit 400
@@ -54,6 +54,7 @@ chown -R mongod:mongod ${databases_dir}
 touch ${log_path}
 
 logging "Completed, next downloading file ..."
+url=${file_url}${file_name}
 download;
 if [[ ! $? -eq 0 ]];then
   logging "Download failed, pls checkout %{log_path} ."
