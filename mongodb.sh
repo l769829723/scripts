@@ -70,7 +70,7 @@ logging "Completed, next setting up repository ..."
 cat >/etc/yum.repos.d/mongodb.repo<<EOF
 [mongodb]
 name=mongodb ver 2.6.3
-baseurl=file://${tmp_dir}
+baseurl=file://${tmp_dir}/*
 gpgcheck=0
 enabled=1
 EOF
