@@ -84,9 +84,9 @@ if [[ ! $? -eq 0 ]];then
   exit
 fi
 logging "Completed, next reconfigure the MongoDB ."
-sed -i "s-$(grep ^dbpath /etc/mongod.conf )-dbpath=${databases_dir}" \
+sed -i "s:$(grep ^dbpath /etc/mongod.conf ):dbpath=${databases_dir}:g" \
 /etc/mongod.conf &>>${log_path}
-sed -i "s-$(grep ^bind_ip /etc/mongod.conf )-bind_ip=0.0.0.0" \
+sed -i "s-$(grep ^bind_ip /etc/mongod.conf ):bind_ip=0.0.0.0:g" \
 /etc/mongod.conf &>>${log_path}
 if [[ ! $? -eq 0 ]];then
   logging "Reconfigure failed, pls checkout ${log_path} ."
