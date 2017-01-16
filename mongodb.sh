@@ -14,7 +14,7 @@ function logging(){
 function download(){
 	logging "Downloading the file from $url ."
 	rm -f $data_dir/$file_name
-	wget --no-check-certificate -P $data_dir $url >>${log_path}
+	wget --no-check-certificate -P $data_dir $url &>>${log_path}
 	if [[ ! -f $data_dir/$file_name ]];then
 		logging "Download was failed from $url ."
 		exit 400
