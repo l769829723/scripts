@@ -67,7 +67,7 @@ if [[ ! $? -eq 0 ]];then
   exit
 fi
 logging "Completed, next setting up repository ..."
-pack_dir_name=$(tar ${data_dir}/${file_name} |head -1)
+pack_dir_name=$(tar tf ${data_dir}/${file_name} |head -1)
 cat >/etc/yum.repos.d/mongodb.repo<<EOF
 [mongodb]
 name=mongodb ver 2.6.3
