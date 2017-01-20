@@ -93,7 +93,7 @@ if [[ ! $? -eq 0 ]];then
   logging "Reconfigure failed, pls checkout ${log_path} ."
 fi
 logging "Completed, next startup MongoDB service ..."
-if [[ -n $(which systemd) ]];then
+if [[ -n $(which systemctl) ]];then
   systemctl start mongod
   if [[ $? -eq 0 ]];then
     logging "Completed, startup by systemd ."
