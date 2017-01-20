@@ -14,7 +14,7 @@ function logging(){
 function download(){
 	logging "Downloading the file from $url ."
 	rm -f $data_dir/$file_name
-	wget --no-check-certificate -P $data_dir $url >>${log_path}
+	wget --no-check-certificate -P $data_dir $url &>>${log_path}
 	if [[ ! -f $data_dir/$file_name ]];then
 		logging "Download was failed from $url ."
 		exit 400
@@ -67,10 +67,11 @@ if [[ ! $? -eq 0 ]];then
   exit
 fi
 logging "Completed, next setting up repository ..."
+pack_dir_name=$(tar tf ${data_dir}/${file_name} |head -1)
 cat >/etc/yum.repos.d/mongodb.repo<<EOF
 [mongodb]
 name=mongodb ver 2.6.3
-baseurl=file://${tmp_dir}
+baseurl=file://${tmp_dir}/${pack_dir_name}
 gpgcheck=0
 enabled=1
 EOF
@@ -84,9 +85,9 @@ if [[ ! $? -eq 0 ]];then
   exit
 fi
 logging "Completed, next reconfigure the MongoDB ."
-sed -i "s-$(grep ^dbpath /etc/mongod.conf )-dbpath=${databases_dir}" \
+sed -i "s:$(grep ^dbpath /etc/mongod.conf ):dbpath=${databases_dir}:g" \
 /etc/mongod.conf &>>${log_path}
-sed -i "s-$(grep ^bind_ip /etc/mongod.conf )-bind_ip=0.0.0.0" \
+sed -i "s:$(grep ^bind_ip /etc/mongod.conf ):bind_ip=0.0.0.0:g" \
 /etc/mongod.conf &>>${log_path}
 if [[ ! $? -eq 0 ]];then
   logging "Reconfigure failed, pls checkout ${log_path} ."
